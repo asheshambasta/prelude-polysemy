@@ -16,7 +16,9 @@ import           Network.HTTP.Types            as HTTP
 import           Data.Text                      ( pack
                                                 , unpack
                                                 )
-import           Protolude               hiding ( catch )
+import           Protolude               hiding ( catch
+                                                , Reader
+                                                )
 import           Prelude.Control.Error         as Err
 import           Prelude.Control.Log           as Log
 
