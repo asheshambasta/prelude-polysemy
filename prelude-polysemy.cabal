@@ -18,13 +18,15 @@ library
     , polysemy
     , text
     , lens
-    , http-types
+    , http-types >= 0.12.3
     , pretty-simple
+    , time
 
   exposed-modules: 
       Prelude 
       Prelude.Control.Log 
       Prelude.Control.Error 
+      Prelude.Time 
       Paths_prelude_polysemy
   -- other-modules: Paths_prelude
 
