@@ -18,6 +18,7 @@ import           Data.Text                      ( pack
                                                 )
 import           Protolude               hiding ( catch
                                                 , Reader
+                                                , ask
                                                 )
 import           Prelude.Control.Error         as Err
 import           Prelude.Control.Log           as Log
