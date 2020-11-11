@@ -1,1 +1,1 @@
-(import ./release.nix).transactor
+(import ./release.nix).prelude-polysemy
