@@ -41,6 +41,8 @@ instance Show KnownError where
     KnownError  e -> T.unpack $ "KnownError " <> displayKnownError e
     KnownException e -> "KnownException " <> show e
 
+instance Exception KnownError 
+
 -- | An instance of `IsKnownError` indicates if a given type can be serialised to a general error representation.
 class IsKnownError e where
 
