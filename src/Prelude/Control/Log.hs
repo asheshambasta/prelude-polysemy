@@ -6,6 +6,7 @@ Description: Logging support for polysemy.
 -}
 module Prelude.Control.Log
   ( Logging(..)
+  , Logger(..)
   -- * Environment
   , Env(..)
   , envText
