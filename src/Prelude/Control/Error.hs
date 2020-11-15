@@ -1,8 +1,15 @@
-{-# LANGUAGE DefaultSignatures, DerivingVia #-}
+{-# LANGUAGE
+    DefaultSignatures
+  , DerivingVia
+  , ConstraintKinds
+#-}
 module Prelude.Control.Error
   ( ErrCode(..)
   , KnownError(..)
   , IsKnownError(..)
+
+  -- $constriants
+  , KnownErrors 
 
   -- * Throwing errors.
   , throwKnownError
@@ -60,5 +67,10 @@ class IsKnownError e where
   knownError = KnownError
 
 -- | Throw an error.
-throwKnownError :: (IsKnownError e, Member (E.Error KnownError) r) => e -> Sem r a
+throwKnownError :: (IsKnownError e, KnownErrors r) => e -> Sem r a
 throwKnownError = E.throw . knownError
+
+-- $constraints
+-- Handy constriants for less typing.
+
+type KnownErrors r = Member (E.Error KnownError) r
