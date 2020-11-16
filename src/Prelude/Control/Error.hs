@@ -70,7 +70,7 @@ class IsKnownError e where
   displayKnownError :: e -> Text
 
   default displayKnownError :: Show e => e -> Text
-  displayKnownError e =  show e <> ": " <> show (errCode e, userMessage e, httpStatus e)
+  displayKnownError e =  show e <> " + KnownError data: " <> show (errCode e, userMessage e, httpStatus e)
 
   -- | The logging level for the error.
   errorLogLevel :: e -> Log.Level
