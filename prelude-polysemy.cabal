@@ -18,9 +18,11 @@ library
     , polysemy
     , text
     , lens
+    , aeson
     , http-types >= 0.12.3
     , pretty-simple
     , time
+    , servant-server
 
   exposed-modules: 
       Prelude 

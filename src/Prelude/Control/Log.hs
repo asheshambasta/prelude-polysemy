@@ -22,6 +22,10 @@ module Prelude.Control.Log
   , runLoggingIO
   -- * Re-exports
   , L.Level(..)
+  , L.levelDebug
+  , L.levelInfo
+  , L.levelWarning
+  , L.levelCritical
   )
 where
 
