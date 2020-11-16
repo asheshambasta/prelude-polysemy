@@ -80,8 +80,8 @@ class IsKnownError e where
   knownError = KnownError
 
 instance IsKnownError KnownError where
-  errCode (KnownError     e) = errCode e
-  errCode (KnownException e) = internalErrCode
+  errCode (KnownError e)   = errCode e
+  errCode KnownException{} = internalErrCode
 
   httpStatus (KnownError e)   = httpStatus e
   httpStatus KnownException{} = internalServerError500
