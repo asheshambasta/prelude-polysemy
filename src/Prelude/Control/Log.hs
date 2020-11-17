@@ -1,5 +1,12 @@
-{-# LANGUAGE TemplateHaskell, BlockArguments, StrictData, TypeApplications
-           , TypeOperators, DataKinds, PolyKinds #-}
+{-# LANGUAGE
+    TemplateHaskell
+  , BlockArguments
+  , StrictData
+  , TypeApplications
+  , TypeOperators
+  , DataKinds
+  , PolyKinds
+#-}
 {-|
 Module: Prelude.Control.Log
 Description: Logging support for polysemy.
@@ -29,6 +36,8 @@ module Prelude.Control.Log
   )
 where
 
+import qualified TextShow                      as TS
+import qualified GHC.Show
 import           Control.Lens
 import qualified Data.Text                     as T
 import qualified Data.String                    ( IsString(..) )
@@ -40,7 +49,13 @@ import           Polysemy.Reader               as R
 -- | Logging env.
 data Env = Env Text
          | Nested Text Env
-         deriving (Eq, Show)
+         deriving Eq
+
+instance Show Env where
+  show = T.unpack . envText
+
+instance L.TextShow Env where
+  showb = TS.fromText . envText
 
 envText :: Env -> Text
 envText (Nested txt env') = txt <> "/" <> envText env'

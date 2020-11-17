@@ -26,7 +26,6 @@ module Prelude.Control.Error
   )
 where
 
-import           Control.Monad.Log             as MLog
 import           Data.Aeson
 import "servant-server" Servant.Server          ( ServerError(..) )
 import qualified Data.Text                     as T
@@ -87,7 +86,7 @@ instance IsKnownError KnownError where
   httpStatus KnownException{} = internalServerError500
 
   errorLogLevel (KnownError e)   = errorLogLevel e
-  errorLogLevel KnownException{} = MLog.levelCritical
+  errorLogLevel KnownException{} = Log.levelCritical
 
   knownError = identity
 
