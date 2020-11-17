@@ -1,7 +1,13 @@
 {-# LANGUAGE
-    DefaultSignatures
-  , DerivingVia
+    TemplateHaskell
+  , BlockArguments 
+  , TypeOperators
+  , DataKinds
+  , PolyKinds
   , ConstraintKinds
+  , TypeApplications
+  , DefaultSignatures
+  , DerivingVia 
 #-}
 module Prelude.Control.Error
   ( ErrCode(..)
@@ -14,6 +20,9 @@ module Prelude.Control.Error
 
   -- * Throwing errors.
   , throwKnownError
+
+  -- * Logging errors
+  , logErrors
 
   -- * Handy re-exports.
   , module HTTP
@@ -34,7 +43,8 @@ import           Polysemy.Error                as E
 import           Polysemy
 import           Prelude.Control.Log           as Log
 import           Network.HTTP.Types            as HTTP
-import           Protolude
+import           Protolude               hiding ( Reader )
+import           Polysemy.Reader
 
 newtype ErrCode = ErrCode Text
                 deriving (Eq, Show, IsString, Semigroup, Monoid, ToJSON, FromJSON) via Text
@@ -92,6 +102,20 @@ instance IsKnownError KnownError where
 
   userMessage (KnownError e)   = userMessage e
   userMessage KnownException{} = Just "An internal server error has occurred."
+
+-- | Catch all `KnownError`s in Sem, log them, and throw them again. 
+logErrors :: Members '[Logging , Error KnownError] r => Sem r a -> Sem r a
+logErrors sem = sem `E.catch` (\err -> logKnownError err >> E.throw err)
+
+logKnownError :: Member Logging r => KnownError -> Sem r ()
+logKnownError err | level == Log.levelDebug    = Log.debug disp
+                  | level == Log.levelInfo     = Log.info disp
+                  | level == Log.levelWarning  = Log.warn disp
+                  | level == Log.levelCritical = Log.critical disp
+                  | otherwise                  = Log.error disp
+ where
+  level = errorLogLevel err
+  disp  = displayKnownError err
 
 -- | Throw an error.
 throwKnownError :: (IsKnownError e, KnownErrors r) => e -> Sem r a
