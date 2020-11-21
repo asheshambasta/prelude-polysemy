@@ -11,6 +11,7 @@ module Prelude.Polysemy.ID
   ( module Data.Snowflake
   , newIDGen
   , runIDGenIO
+  , ID(..)
   , IDGen(..)
   , newSnowflake
   , newId
