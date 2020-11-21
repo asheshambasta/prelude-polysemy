@@ -24,9 +24,11 @@ library
     , pretty-simple
     , time
     , servant-server
+    , snowflake 
 
   exposed-modules: 
       Prelude 
+      Prelude.Polysemy.ID
       Prelude.Control.Log 
       Prelude.Control.Error 
       Prelude.Time 
