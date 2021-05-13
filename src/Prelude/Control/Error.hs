@@ -32,25 +32,23 @@ module Prelude.Control.Error
   -- $servant
   , asServantError
   , ServerError(..)
-  )
-where
+  ) where
 
 import           Data.Aeson
-import "servant-server" Servant.Server          ( ServerError(..) )
 import qualified Data.Text                     as T
 import qualified GHC.Show
-import           Polysemy.Error                as E
-import           Polysemy
-import           Prelude.Control.Log           as Log
 import           Network.HTTP.Types            as HTTP
+import           Polysemy
+import           Polysemy.Error                as E
+import           Prelude.Control.Log           as Log
 import           Protolude               hiding ( Reader )
-import           Polysemy.Reader
+import "servant-server" Servant.Server          ( ServerError(..) )
 
 newtype ErrCode = ErrCode Text
                 deriving (Eq, Show, IsString, Semigroup, Monoid, ToJSON, FromJSON) via Text
 
 internalErrCode :: ErrCode
-internalErrCode = ErrCode "ERR.INTERNAL"
+internalErrCode = "ERR.INTERNAL"
 
 data KnownError where
   KnownError ::IsKnownError e => e -> KnownError
